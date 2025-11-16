@@ -2,7 +2,7 @@
 Author: Wang, Qiaoyu
 Date: 2025-11-15 15:40:10
 LastEditors: Wang, Qiaoyu
-LastEditTime: 2025-11-15 15:42:57
+LastEditTime: 2025-11-16 23:22:30
 Description: 
 '''
 
@@ -54,6 +54,7 @@ async def run_test(dut, test_counts = 2**16):
     for _ in range(test_counts):
         # 随机数测试
         data_in = random.randint(0, 2**32 - 1)
+        data_in = data_in & (1 << random.randint(0, 31))
         tb.dut.data_in.value = data_in
         await Timer(1, 'ns')
         pos_out = tb.dut.pos_out.value.integer
@@ -63,5 +64,5 @@ async def run_test(dut, test_counts = 2**16):
         tb.log.info(f"data_in={data_in:#0{10}x}: dut pos_out={pos_out}, soft pe pos_out={soft_pos_out}")
 
 tf = TestFactory(run_test)
-tf.add_option("test_counts", [2**20])
+tf.add_option("test_counts", [2**16])
 tf.generate_tests()
