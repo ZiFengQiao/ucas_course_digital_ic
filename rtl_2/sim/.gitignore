@@ -1,0 +1,12 @@
+sim_modelsim/rtl_work
+sim_modelsim/rtl_work/*
+sim_modelsim/transcript
+
+sim_modelsim/__pycache__
+sim_modelsim/sim_build
+sim_modelsim/sim_build/*
+sim_modelsim/transcript
+sim_modelsim/modelsim.ini
+sim_modelsim/vsim.wlf
+sim_modelsim/results.xml
+sim_modelsim/.pytest_cache
