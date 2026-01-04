@@ -2,7 +2,7 @@
  * @Author: Wang, Qiaoyu
  * @Date: 2025-12-28 21:56:52
  * @LastEditors: Wang, Qiaoyu
- * @LastEditTime: 2025-12-29 11:38:21
+ * @LastEditTime: 2026-01-04 01:23:56
  * @Description: 8x8 Matrix Zigzag Scan Module
  *               Serial input -> Buffer -> Zigzag output via ROM address mapping
  */
@@ -75,7 +75,7 @@ module mat_scan #(
             end
         end
 
-        // 打印结果验证
+        // 打印前64个结果验证
         for (i = 0; i < 64; i = i + 1) begin
             $display("Index %d -> Addr %d", i, zigzag_addr[i]);
         end
@@ -89,7 +89,8 @@ module mat_scan #(
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             st_curr <= S_IDLE;
-        end else begin
+        end
+        else begin
             st_curr <= st_next;
         end
     end
@@ -97,6 +98,8 @@ module mat_scan #(
     // 数据缓存，SRAM
     (* ramstyle = "block" *)
     reg [DATA_WIDTH-1:0] data_buf [0:DATA_NUM-1];
+
+    // 读写指针
     reg                  data_buf_wr_en;          // 写使能
     reg [ADDR_WIDTH-1:0] data_buf_wr_ptr_q;
     reg [ADDR_WIDTH-1:0] data_buf_wr_ptr_d;
@@ -232,17 +235,18 @@ module mat_scan #(
     wire [ADDR_WIDTH-1:0] rd_addr;
     assign rd_addr = zigzag_addr[data_buf_rd_ptr_q];
 
+    // output
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             vld_out_q <= 1'b0;
-        end else begin
-            vld_out_q <= data_buf_rd_en;
+            dout_q <= {DATA_WIDTH{1'b0}};
         end
-    end
+        else begin
+            vld_out_q <= data_buf_rd_en;
 
-    always @(posedge clk) begin
-        if (data_buf_rd_en) begin
-            dout_q <= data_buf[rd_addr];
+            if (data_buf_rd_en) begin
+                dout_q <= data_buf[rd_addr];
+            end
         end
     end
 

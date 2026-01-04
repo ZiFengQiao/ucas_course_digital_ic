@@ -2,7 +2,7 @@
  * @Author: Wang, Qiaoyu
  * @Date: 2025-12-29 14:15:05
  * @LastEditors: Wang, Qiaoyu
- * @LastEditTime: 2025-12-30 00:18:59
+ * @LastEditTime: 2026-01-04 14:16:52
  * @Description: AHB Interface for SRAM Controller
  */
 
@@ -41,22 +41,21 @@ module sram_ctr_ahb #(
     localparam AHB_TRANS_NON_SEQ = 2'b10;
     localparam AHB_TRANS_SEQ     = 2'b11;
     // 读写控制
-    reg [SRAM_ADDR_WIDTH-1:0]    mem_addr_d, mem_addr_q;
-    reg                          mem_rd_en_d, mem_rd_en_q;
-    reg                          mem_wr_en_d, mem_wr_en_q;
-    reg [1:0]                    hresp_d, hresp_q;
-    reg                          hready_d, hready_q;
+    reg [SRAM_ADDR_WIDTH-1:0]    mem_addr_d, mem_addr_q;    // 12
+    reg                          mem_rd_en_d, mem_rd_en_q;  // 1
+    reg                          mem_wr_en_d, mem_wr_en_q;  // 1
+    reg [1:0]                    hresp_d, hresp_q;          // 2 -> 1, 低位不变，被优化掉了
+    reg                          hready_d, hready_q;        // 1
 
     // sram ctrl
-    assign sram_a   = mem_addr_q;
-    assign sram_csn = ~(mem_rd_en_d | mem_wr_en_q); // 超前读，延迟写
+    assign sram_a   = mem_rd_en_d ? mem_addr_d : mem_addr_q;    // 超前读
+    assign sram_csn = ~(mem_rd_en_d | mem_wr_en_q);             // 超前读，延迟写
     assign sram_wen = ~mem_wr_en_q;
     assign sram_d   = hwdata;
 
     assign hresp    = hresp_q;
     assign hready   = hready_q;
     assign hrdata   = mem_rd_en_q ? sram_q : {DATA_WIDTH{1'b0}};
-
 
     // 读数据保存
     always @(posedge hclk or negedge hresetn) begin
@@ -81,9 +80,10 @@ module sram_ctr_ahb #(
         mem_rd_en_d = 1'b0;
         mem_wr_en_d = 1'b0;
         
-        hresp_d   = 2'b00;      // OKAY
-        hready_d  = 1'b1;       // default ready
-
+        hresp_d     = 2'b00;      // OKAY
+        hready_d    = 1'b1;       // default ready
+        mem_addr_d  = mem_addr_q; // default hold address
+        
         if (htrans[1] == 1'b1 && hready_q) begin
             // ready 前，输入保持数据
             mem_addr_d = haddr[SRAM_ADDR_WIDTH-1:0];

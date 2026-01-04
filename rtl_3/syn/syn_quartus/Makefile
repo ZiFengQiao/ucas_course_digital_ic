@@ -23,7 +23,7 @@ OUTPUT_FILES = *.ip *.qpf *.qsf *.qws quartus.* \
 				./dni ./qdb ./output_files \
 				./support_logic ./simulation ./$(basename $(IP_FILES))
 
-main: project_init generate_logic
+main: project_init generate_ip_files generate_logic generate_sim_script
 
 project_init:
 	@if test -e $(QPF_FILE); then \

@@ -1,15 +1,15 @@
-PROJECT_NAME ?= stop_watch
+PROJECT_NAME ?= sqrt_u32
 SYN ?= 1
 SIM ?= 0
 QPF_FILE = $(PROJECT_NAME).qpf
 QSF_FILE = $(PROJECT_NAME).qsf
 
-TOP_ENTITY = stop_watch
+TOP_ENTITY = sqrt_u32
 
 RTL_PATH = $(abspath ../../src)
 # LIB_PATH = $(abspath ../../lib)
 
-RTL_FILES += $(RTL_PATH)/stop_watch.v
+RTL_FILES += $(RTL_PATH)/sqrt_u32.v
 
 
 # IP_TCL_FILES += ./src/pll_sys.tcl

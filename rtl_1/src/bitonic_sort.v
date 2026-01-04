@@ -2,7 +2,7 @@
  * @Author: Wang, Qiaoyu
  * @Date: 2025-12-28 16:24:12
  * @LastEditors: Wang, Qiaoyu
- * @LastEditTime: 2025-12-28 21:35:32
+ * @LastEditTime: 2026-01-04 00:08:49
  * @Description: 32x8-bit Unsigned Integer Sorter using Bitonic Sort Network
  */
 
@@ -12,16 +12,16 @@
 `default_nettype none
 
 module bitonic_sort #(
-    parameter  DATA_WIDTH = 8,
-    parameter  DATA_NUM   = 32,
-    parameter  ASCEND     = 1    // 1: 升序, 0: 降序
+    parameter  DATA_WIDTH                   = 8,
+    parameter  DATA_NUM                     = 32,
+    parameter  ASCEND                       = 1    // 1: 升序, 0: 降序
 ) (
-    input  wire  clk,
-    input  wire  rst_n,
-    input  wire  vld_in,
-    input  wire  [DATA_NUM*DATA_WIDTH-1:0] din_array,
-    output wire  vld_out,
-    output wire  [DATA_NUM*DATA_WIDTH-1:0] dout_array
+    input  wire                             clk,
+    input  wire                             rst_n,
+    input  wire                             vld_in,
+    input  wire  [DATA_NUM*DATA_WIDTH-1:0]  din_array,
+    output wire                             vld_out,
+    output wire  [DATA_NUM*DATA_WIDTH-1:0]  dout_array
 );
 
     // 双调排序网络 (Bitonic Sort Network)
@@ -91,16 +91,16 @@ module bitonic_sort #(
                 assign merge_din = group_data_in[grp][blk*MERGE_SIZE*DATA_WIDTH +: MERGE_SIZE*DATA_WIDTH];
 
                 bitonic_merge #(
-                    .DATA_NUM   (MERGE_SIZE),
-                    .DATA_WIDTH (DATA_WIDTH),
-                    .ASCEND     (BLOCK_ASCEND)
+                    .DATA_NUM           (MERGE_SIZE),
+                    .DATA_WIDTH         (DATA_WIDTH),
+                    .ASCEND             (BLOCK_ASCEND)
                 ) u_bitonic_merge (
-                    .clk             (clk),
-                    .rst_n           (rst_n),
-                    .din_array_valid (merge_din_valid),
-                    .din_array       (merge_din),
-                    .dout_array_valid(merge_dout_valid),
-                    .dout_array      (merge_dout)
+                    .clk                (clk),
+                    .rst_n              (rst_n),
+                    .din_array_valid    (merge_din_valid),
+                    .din_array          (merge_din),
+                    .dout_array_valid   (merge_dout_valid),
+                    .dout_array         (merge_dout)
                 );
 
                 // 将 merge 单元的输出连接到组输出

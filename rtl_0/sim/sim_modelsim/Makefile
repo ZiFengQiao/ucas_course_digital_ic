@@ -9,7 +9,7 @@ COCOTB_RESOLVE_X = ZEROS
 
 RTL_DIR = ../../src
 
-DUT      = stop_watch
+DUT      = sram_ctr_ahb_top
 TOPLEVEL = $(DUT)
 MODULE   = test_$(DUT)
 

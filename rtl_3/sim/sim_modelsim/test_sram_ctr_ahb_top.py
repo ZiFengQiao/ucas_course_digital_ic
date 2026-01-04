@@ -2,7 +2,7 @@
 Author: Wang, Qiaoyu
 Date: 2025-12-08 22:50:00
 LastEditors: Wang, Qiaoyu
-LastEditTime: 2025-12-30 01:08:29
+LastEditTime: 2025-12-30 23:00:31
 Description: Cocotb testbench for sram_ctr_ahb_top
              Test AHB burst and single transfer with HSIZE = 010 (32-bit)
 '''
@@ -349,7 +349,7 @@ if cocotb.SIM_NAME:
 
 tests_dir = os.path.dirname(__file__)
 rtl_dir = os.path.abspath(os.path.join(tests_dir, '..', '..', 'src'))
-
+eda_dir = os.path.abspath("/opt/quartus/quartus/eda")
 
 def test_sram_ctr_ahb_top(request):
     dut = "sram_ctr_ahb_top"
@@ -357,6 +357,7 @@ def test_sram_ctr_ahb_top(request):
     toplevel = dut
 
     verilog_sources = [
+        os.path.join(eda_dir, "sim_lib/altera_lnsim.sv"),
         os.path.join(rtl_dir, "altera_sram.v"),
         os.path.join(rtl_dir, "sram_ctr_ahb.v"),
         os.path.join(rtl_dir, f"{dut}.v"),
@@ -370,8 +371,7 @@ def test_sram_ctr_ahb_top(request):
 
     extra_env = {f'PARAM_{k}': str(v) for k, v in parameters.items()}
 
-    sim_build = os.path.join(tests_dir, "sim_build",
-        request.node.name.replace('[', '-').replace(']', ''))
+    sim_build = os.path.join(tests_dir, "sim_build")
 
     cocotb_test.simulator.run(
         simulator="questa",

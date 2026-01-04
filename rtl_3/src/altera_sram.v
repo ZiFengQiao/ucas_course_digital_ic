@@ -2,7 +2,7 @@
  * @Author: Wang, Qiaoyu
  * @Date: 2025-12-29 23:48:48
  * @LastEditors: Wang, Qiaoyu
- * @LastEditTime: 2025-12-30 00:26:57
+ * @LastEditTime: 2026-01-03 14:49:52
  * @Description: Altera Simple Dual Port RAM Wrapper
  *               Port A: Write only
  *               Port B: Read only
@@ -58,7 +58,7 @@ module altera_sram #(
         // Port A Parameters (Write)
         .DATA_WIDTH_A                       (DATA_WIDTH),
         .ADDR_WIDTH_A                       (ADDR_WIDTH),
-        .BYTE_EN_WIDTH_A                    (1'b0),
+        .BYTE_EN_WIDTH_A                    (DATA_WIDTH/8),
 
         // Port B Parameters (Read)
         .DATA_WIDTH_B                       (DATA_WIDTH),
@@ -103,7 +103,7 @@ module altera_sram #(
         .data_a                             (sram_wdata),
         .address_a                          (sram_addr),
         .wren_a                             (wr_en),
-        .byteena_a                          (0),
+        .byteena_a                          ({(DATA_WIDTH/8){1'b1}}),
         .addressstall_a                     (1'b0),
 
         // Port B - Read Interface

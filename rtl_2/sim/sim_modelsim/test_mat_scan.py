@@ -2,7 +2,7 @@
 Author: Wang, Qiaoyu
 Date: 2025-12-08 22:50:00
 LastEditors: Wang, Qiaoyu
-LastEditTime: 2025-12-29 11:10:15
+LastEditTime: 2026-01-04 01:06:26
 Description: Cocotb testbench for mat_scan (8x8 Matrix Zigzag Scan Module)
 '''
 
@@ -223,7 +223,7 @@ rtl_dir = os.path.abspath(os.path.join(tests_dir, '..', '..', 'src'))
 
 
 @pytest.mark.parametrize("mat_n", [8, 16])
-@pytest.mark.parametrize("data_width", [8, 16])
+@pytest.mark.parametrize("data_width", [10, 16])
 def test_mat_scan(request, data_width, mat_n):
     dut = "mat_scan"
     module = os.path.splitext(os.path.basename(__file__))[0]

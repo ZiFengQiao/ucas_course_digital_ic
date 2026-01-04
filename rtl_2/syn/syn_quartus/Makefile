@@ -1,28 +1,16 @@
-PROJECT_NAME ?= mul_tc_16_16
+PROJECT_NAME ?= mat_scan
 SYN ?= 1
 SIM ?= 0
 QPF_FILE = $(PROJECT_NAME).qpf
 QSF_FILE = $(PROJECT_NAME).qsf
 
-TOP_ENTITY = mul_tc_16_16_clk
+TOP_ENTITY = mat_scan
 
 RTL_PATH = $(abspath ../../src)
 # LIB_PATH = $(abspath ../../lib)
 
-RTL_FILES += $(RTL_PATH)/full_adder.v
+RTL_FILES += $(RTL_PATH)/mat_scan.v
 
-RTL_FILES += $(RTL_PATH)/cla_c4.v
-RTL_FILES += $(RTL_PATH)/cla_adder.v
-
-RTL_FILES += $(RTL_PATH)/wallace_tree.v
-RTL_FILES += $(RTL_PATH)/wallace_tree_1b.v
-
-RTL_FILES += $(RTL_PATH)/booth_3b.v
-RTL_FILES += $(RTL_PATH)/booth_encoder.v
-RTL_FILES += $(RTL_PATH)/booth_multi.v
-RTL_FILES += $(RTL_PATH)/mul_tc_16_16.v
-
-RTL_FILES += $(RTL_PATH)/mul_tc_16_16_clk.v
 # IP_TCL_FILES += ./src/pll_sys.tcl
 # IP_FILES += pll_sys.ip
 # IP_TCL_FILES = 
