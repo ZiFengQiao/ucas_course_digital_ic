@@ -1,0 +1,4 @@
+syn_quartus/*
+!syn_quartus/Makefile
+!syn_quartus/qsf
+!syn_quartus/qsf/*
