@@ -1,0 +1,3 @@
+#!/bin/bash
+
+dc_shell -64bit -f ./script/syn_flow.tcl | tee run.log

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+rm -rf default.svf *.log
+rm -rf alib-52 analyzed
+rm -rf log rpt output

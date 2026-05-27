@@ -1,0 +1,2 @@
+D:/Desktop/TEMP/async_fifo_20230911_2330/rtl/sim/tb_src/tb_async_fifo.sv
+D:/Desktop/TEMP/async_fifo_20230911_2330/rtl/src/async_fifo.v
